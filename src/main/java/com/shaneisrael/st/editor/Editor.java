@@ -119,21 +119,18 @@ public class Editor
         return ((EditorPanel) editorPanel).getImage();
     }
 
-    public void submit()
+    public void save()
     {
 
-        if (mode == Overlay.SAVE)
-        {
-            save = new Save();
-            save.save(getEditedImage());
-        } else if (mode == Overlay.UPLOAD)
-        {
-            upload = new Upload(getEditedImage(), false);
-        } else if (mode == Overlay.UPLOAD_FTP)
-        {
-            new SimpleFTPUploader(
-                ImageUtilities.saveTemporarily(getEditedImage()));
-        }
+        save = new Save();
+        save.save(getEditedImage());
+
+        exit();
+    }
+    public void upload()
+    {
+
+        upload = new Upload(getEditedImage(), false);
 
         exit();
     }
@@ -239,7 +236,7 @@ public class Editor
                         switch (e.getKeyCode())
                         {
                         case KeyEvent.VK_ENTER:
-                            submit();
+                            upload();
                             break;
 
                         }
@@ -744,17 +741,30 @@ public class Editor
                         });
                         toolPanel.add(btnReset, "flowy,cell 5 0,grow");
                 
-                        JButton btnSubmit = new JButton("Submit");
-                        btnSubmit.addActionListener(new ActionListener()
+
+                        JButton btnUpload = new JButton("Upload");
+                        btnUpload.addActionListener(new ActionListener()
                         {
 
                             @Override
                             public void actionPerformed(ActionEvent e)
                             {
-                                submit();
+                                upload();
                             }
                         });
-                        toolPanel.add(btnSubmit, "cell 5 0,growy");
+                        toolPanel.add(btnUpload, "cell 5 0,growy");
+
+                        JButton btnSave = new JButton("Save");
+                        btnSave.addActionListener(new ActionListener()
+                        {
+
+                            @Override
+                            public void actionPerformed(ActionEvent e)
+                            {
+                                save();
+                            }
+                        });
+                        toolPanel.add(btnSave, "cell 5 0,growy");
         chckbxFilled.addActionListener(new ActionListener()
         {
 
